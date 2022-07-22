@@ -48,8 +48,6 @@ fn decoder(str: &str) -> String {
                 continue;
             }
         }
-        println!("{}", i);
-
         result += &bin_to_str(&bin_str);
         if i == " " {
             result += " ";
@@ -91,14 +89,14 @@ fn main() {
         if cmd == "-e" {
             let binary = to_bin(&arg_str);
             result = encoder(&binary);
-        } else if cmd == "-e" {
+        } else if cmd == "-d" {
             result = decoder(&arg_str);
         } else {
             println!("No command found");
         }
 
         if result.len() > 0 {
-            println!("{}", result);
+            println!("The output is: {}\n", result);
         }
     }
 }
