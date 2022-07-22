@@ -66,19 +66,38 @@ fn main() {
         io::stdin()
             .read_line(&mut input_str)
             .expect("can't read input");
+
         let input_str = input_str.trim();
 
-        if input_str.to_lowercase() == "q" {
+        if input_str.starts_with("-q") {
             break;
         }
 
-        if input_str.to_lowercase().starts_with("-e") {
-            let str = &input_str.trim()[3..input_str.len()];
-            let result = to_bin(str);
-            println!("{}", encoder(&result));
-        } else if input_str.to_lowercase().starts_with("-d") {
-            let str = &input_str.trim()[3..input_str.len()];
-            let result = decoder(&str);
+        if input_str.starts_with("-c") {
+            print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
+            continue;
+        }
+
+        if input_str.len() < 3 {
+            println!(">Too short command or no args\n");
+            continue;
+        }
+
+        let mut result = String::new();
+
+        let arg_str = &input_str.trim()[3..input_str.len()];
+        let cmd = &input_str[0..2].to_lowercase();
+
+        if cmd == "-e" {
+            let binary = to_bin(&arg_str);
+            result = encoder(&binary);
+        } else if cmd == "-e" {
+            result = decoder(&arg_str);
+        } else {
+            println!("No command found");
+        }
+
+        if result.len() > 0 {
             println!("{}", result);
         }
     }
